@@ -27,6 +27,9 @@ def train_one_epoch(
         d_block.train()
 
     for current_step, real_wav in tqdm(enumerate(train_dataloader), total=train_config.steps_per_epoch):
+        if current_step >= train_config.steps_per_epoch:
+            break
+
         real_mels = get_mel_spec(real_wav)
 
         real_wav = real_wav.to(train_config.device)
