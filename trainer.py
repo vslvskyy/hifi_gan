@@ -65,6 +65,8 @@ def train_one_epoch(
                 "ftmp_loss": ftmp_loss
             })
 
+        break
+
 
 def validate(
     generator: nn.Module,
@@ -74,7 +76,7 @@ def validate(
     for wav in test_dataset:
         mel_spec = get_mel_spec(wav)
 
-        fake_wav = generator(mel_spec)
+        fake_wav = generator(mel_spec.to(generator.device))
         print(f"fake_wav.shape: {fake_wav.shape}")
         break
 
