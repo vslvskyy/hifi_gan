@@ -5,8 +5,7 @@ import torch.nn as nn
 
 from tqdm import tqdm
 
-from torch.utils.data import DataLoader
-
+from torch.utils.data import DataLoader, Dataset
 from configs import TrainConfig
 from loss import HifiGanLoss
 
@@ -16,8 +15,8 @@ def train_one_epoch(
     train_dataloader: DataLoader,
     g_optimizer,
     d_optimizer,
-    loss_obj,
-    get_mel_spec,
+    loss_obj: HifiGanLoss,
+    get_mel_spec: nn.Module,
     train_config: TrainConfig
 ):
     generator.train()
@@ -58,7 +57,6 @@ def train_one_epoch(
 
 
         if train_config.log and i % train_config.log_step == 0:
-            print(f"total_g_loss: {total_g_loss.item()}, d_loss: {total_d_loss.item()}, mel_loss: {mel_loss.item()}, ftmp_loss: {ftmp_loss.item()}")
             wandb.log({
                 "total_g_loss": total_g_loss,
                 "total_d_loss": total_d_loss,
@@ -68,16 +66,31 @@ def train_one_epoch(
             })
 
 
+def validate(
+    generator: nn.Module,
+    get_mel_spec: nn.Module,
+    test_dataset: Dataset
+):
+    for wav in test_dataset:
+        mel_spec = get_mel_spec(wav)
+
+        fake_wav = generator(mel_spec)
+        print(f"fake_wav.shape: {fake_wav.shape}")
+        break
+
+
+
+
 def train(
     generator: nn.Module,
     discriminator: nn.ModuleList,
     train_dataloader: DataLoader,
-    test_dataloader: DataLoader,
+    test_dataset: Dataset,
     g_optimizer,
     d_optimizer,
     g_scheduler,
     d_scheduler,
-    get_mel_spec,
+    get_mel_spec: nn.Module,
     train_config: TrainConfig
 ):
     loss_obj = HifiGanLoss(
@@ -104,5 +117,5 @@ def train(
         d_scheduler.step()
         g_scheduler.step()
 
-
-    # validate(generator, get_mel_spec, test_dataloader)
+        # if train_config.log:
+        validate(generator, get_mel_spec, test_dataset)

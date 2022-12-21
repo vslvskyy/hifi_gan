@@ -9,6 +9,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 from configs import MelSpectrogramConfig
 
+
 def collator(
     wavs: tp.List[torch.Tensor]
 ) -> torch.Tensor:
