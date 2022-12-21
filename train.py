@@ -38,7 +38,7 @@ def run(args):
 
     train(
         g_model, d_model,
-        dataloader,
+        dataloader, dataloader,
         g_optimizer, d_optimizer,
         g_scheduler, d_scheduler,
         MelSpectrogram(MelSpectrogramConfig),
