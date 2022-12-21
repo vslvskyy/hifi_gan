@@ -8,7 +8,6 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader, Dataset
 from configs import TrainConfig
 from loss import HifiGanLoss
-from utils import add_audio
 
 
 def train_one_epoch(
@@ -68,13 +67,6 @@ def train_one_epoch(
             })
 
         break
-
-
-def add_audio(scalar_name, audio, sample_rate=None):
-    audio = audio.detach().cpu().numpy().T
-    wandb.log({
-        scalar_name: wandb.Audio(audio, sample_rate=sample_rate)
-    })
 
 
 def validate(
