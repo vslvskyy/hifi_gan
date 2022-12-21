@@ -6,6 +6,8 @@ import torch.nn as nn
 from tqdm import tqdm
 
 from torch.utils.data import DataLoader, Dataset
+from torch.nn.utils import clip_grad_norm_
+
 from configs import TrainConfig
 from loss import HifiGanLoss
 
@@ -46,16 +48,19 @@ def train_one_epoch(
 
         total_g_loss, total_d_loss, adv_g_loss, mel_loss, ftmp_loss = loss_obj(discriminator, real_wav, fake_wav.detach())
 
+        clip_grad_norm_(discriminator.parameters(), 15.0)
+
         d_optimizer.zero_grad()
         total_d_loss.backward()
         d_optimizer.step()
 
         total_g_loss, total_d_loss, adv_g_loss, mel_loss, ftmp_loss = loss_obj(discriminator, real_wav, fake_wav)
 
+        clip_grad_norm_(generator.parameters(), 15.0)
+
         g_optimizer.zero_grad()
         total_g_loss.backward()
         g_optimizer.step()
-
 
         if train_config.log and current_step % train_config.log_step == 0:
             wandb.log({

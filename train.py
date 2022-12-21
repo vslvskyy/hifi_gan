@@ -18,8 +18,10 @@ from utils import collator, MelSpectrogram
 
 def run(args):
     train_config = TrainConfig(log=args.wandb_log, checkpoint_path=args.checkpoint_path)
-    dataset = LJSpeechDataset(args.train_data_path)
-    dataloader = DataLoader(dataset, train_config.batch_size, collate_fn=collator)
+    train_dataset = LJSpeechDataset(args.train_data_path)
+    train_dataloader = DataLoader(train_dataset, train_config.batch_size, collate_fn=collator)
+
+    test_dataset = LJSpeechDataset(args.test_data_path)
 
     g_model = HiFiGenerator(ModelConfig, MelSpectrogramConfig)
     mpd_blocks = [SubDiscriminatorP(p,  ModelConfig) for p in train_config.mpd_periods]
@@ -43,7 +45,7 @@ def run(args):
 
     train(
         g_model, d_model,
-        dataloader, dataset,
+        train_dataloader, test_dataset,
         g_optimizer, d_optimizer,
         g_scheduler, d_scheduler,
         MelSpectrogram(MelSpectrogramConfig),
