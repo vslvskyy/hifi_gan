@@ -71,7 +71,8 @@ def train_one_epoch(
 def validate(
     generator: nn.Module,
     get_mel_spec: nn.Module,
-    test_dataset: Dataset
+    test_dataset: Dataset,
+    device
 ):
     for wav in test_dataset:
         mel_spec = get_mel_spec(wav)
@@ -120,4 +121,4 @@ def train(
         g_scheduler.step()
 
         # if train_config.log:
-        validate(generator, get_mel_spec, test_dataset)
+        validate(generator, get_mel_spec, test_dataset, train_config.device)
