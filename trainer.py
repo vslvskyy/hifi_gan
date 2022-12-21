@@ -84,6 +84,7 @@ def validate(
 
         break
 
+    print(dataset.sample_rate)
     for i, fake_wav in enumerate(fake_wavs, start=1):
         wandb.log({
             f"test sample {i}": wandb.Audio(fake_wav, sample_rate=dataset.sample_rate)
