@@ -110,7 +110,7 @@ def train(
     for epoch in range(train_config.n_epochs):
         if train_config.log:
             wandb.log({
-                epoch: epoch
+                "epoch": epoch
             })
 
         train_one_epoch(
@@ -137,5 +137,5 @@ def train(
                 "g_optimizer": g_optimizer.state_dict(),
                 "discriminator": discriminator.state_dict(),
                 "d_optimizer": d_optimizer.state_dict()
-            }, f"{train_config.save_path}/checkpoint_%d.pth.tar" % epoch)
+            }, f"{train_config.checkpoint_path}/checkpoint_%d.pth.tar" % epoch)
             print("save model after epoch %d ..." % epoch)
