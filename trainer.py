@@ -88,7 +88,7 @@ def validate(
         mel_spec = get_mel_spec(wav)
 
         fake_wav = generator(mel_spec.to(device))  # (1, T)
-        fake_wavs.append(fake_wav)
+        fake_wavs.append(fake_wav.detach().cpu().numpy())
 
         break
 
