@@ -1,4 +1,4 @@
-import os   
+import os
 
 import torch
 import torchaudio
@@ -13,6 +13,7 @@ class LJSpeechDataset(Dataset):
         root: str
     ):
         self.wav_paths = sorted([os.path.join(root + "/wavs", f) for f in os.listdir(root + "/wavs")])
+        self.sample_rate = torchaudio.load(self.wav_paths[0])[1]
 
     def __len__(self):
         return len(self.wav_paths)

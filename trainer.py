@@ -8,6 +8,8 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader, Dataset
 from configs import TrainConfig
 from loss import HifiGanLoss
+from utils import add_audio
+
 
 def train_one_epoch(
     generator: nn.Module,
@@ -68,20 +70,32 @@ def train_one_epoch(
         break
 
 
+def add_audio(scalar_name, audio, sample_rate=None):
+    audio = audio.detach().cpu().numpy().T
+    wandb.log({
+        scalar_name: wandb.Audio(audio, sample_rate=sample_rate)
+    })
+
+
 def validate(
     generator: nn.Module,
     get_mel_spec: nn.Module,
-    test_dataset: Dataset,
-    device
+    dataset: Dataset,
+    device: torch.device,
 ):
-    for wav in test_dataset:
+    fake_wavs = []
+    for wav in dataset:
         mel_spec = get_mel_spec(wav)
 
-        fake_wav = generator(mel_spec.to(device))
-        print(f"fake_wav.shape: {fake_wav.shape}")
+        fake_wav = generator(mel_spec.to(device))  # (1, T)
+        fake_wavs.append(fake_wav)
+
         break
 
-
+    for i, fake_wav in enumerate(fake_wavs, start=1):
+        wandb.log({
+            f"test sample {i}": wandb.Audio(fake_wav, sample_rate=dataset.sample_rate)
+        })
 
 
 def train(
