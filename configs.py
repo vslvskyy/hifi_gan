@@ -48,4 +48,4 @@ class TrainConfig:
     log_step: int = 25
     save_step: int = 10
     log: bool = True
-    checkpoint_path: str = "./"
+    checkpoint_path: str = "."
