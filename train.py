@@ -63,7 +63,7 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", type=str, required=True,
                         help="path to directory to save checkpoints")
 
-    parser.add_argument("--wandb_log", action="store_false", required=False,
+    parser.add_argument("--wandb_log", action="store_true", required=False,
                         help="wether to log or not")
 
     run(parser.parse_args())
