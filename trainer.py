@@ -98,8 +98,7 @@ def train(
 
             loss_obj,
             get_mel_spec,
-            train_config.device,
-            train_config.steps_per_epoch
+            train_config
         )
 
         d_scheduler.step()
