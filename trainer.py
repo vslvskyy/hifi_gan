@@ -57,15 +57,15 @@ def train_one_epoch(
         g_optimizer.step()
 
 
-        if i % train_config.log_step == 0:
-            print(f"total_g_loss: {total_g_loss.item()}, d_loss: {total_d_loss.item()}, mel_loss: {mel_loss.item()}, ftmp_loss: {ftmp_loss.item()}")
-            wandb.log({
-                "total_g_loss": total_g_loss,
-                "total_d_loss": total_d_loss,
-                "adv_g_loss": adv_g_loss,
-                "mel_loss": mel_loss,
-                "ftmp_loss": ftmp_loss
-            })
+        # if i % train_config.log_step == 0:
+        #     print(f"total_g_loss: {total_g_loss.item()}, d_loss: {total_d_loss.item()}, mel_loss: {mel_loss.item()}, ftmp_loss: {ftmp_loss.item()}")
+        #     wandb.log({
+        #         "total_g_loss": total_g_loss,
+        #         "total_d_loss": total_d_loss,
+        #         "adv_g_loss": adv_g_loss,
+        #         "mel_loss": mel_loss,
+        #         "ftmp_loss": ftmp_loss
+        #     })
 
 
 def train(
