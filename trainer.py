@@ -77,7 +77,7 @@ def validate(
     for wav in test_dataset:
         mel_spec = get_mel_spec(wav)
 
-        fake_wav = generator(mel_spec.to(generator.device))
+        fake_wav = generator(mel_spec.to(device))
         print(f"fake_wav.shape: {fake_wav.shape}")
         break
 
