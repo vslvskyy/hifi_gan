@@ -19,7 +19,7 @@ from utils import collator, MelSpectrogram
 def run(args):
     train_config = TrainConfig(log=args.wandb_log, checkpoint_path=args.checkpoint_path)
     train_dataset = LJSpeechDataset(args.train_data_path)
-    train_dataloader = DataLoader(train_dataset, train_config.batch_size, collate_fn=collator)
+    train_dataloader = DataLoader(train_dataset, train_config.batch_size, shuffle=True, collate_fn=collator)
 
     test_dataset = LJSpeechDataset(args.test_data_path)
 
