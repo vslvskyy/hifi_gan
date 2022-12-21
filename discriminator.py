@@ -3,13 +3,15 @@ import torch.nn as nn
 
 from torch.nn.utils import weight_norm, spectral_norm
 
+from configs import ModelConfig
+from utils import init_conv
+
 
 class SubDiscriminatorP(nn.Module):
     def __init__(
         self,
         p: int,
-        kernel_size: int,
-        stride: int
+        model_config: ModelConfig
     ):
         super(SubDiscriminatorP, self).__init__()
 
@@ -19,18 +21,22 @@ class SubDiscriminatorP(nn.Module):
         self.layers = []
         for i in range(1, len(n_channels)):
             self.layers.append(
-                weight_norm(nn.Sequential(
-                    nn.Conv2d(
+                nn.Sequential(
+                    weight_norm(nn.Conv2d(
                         n_channels[i - 1],
                         n_channels[i],
-                        kernel_size=(kernel_size, 1),
-                        stride=(stride, 1),
+                        kernel_size=(model_config.mpd_kernel_size, 1),
+                        stride=(model_config.mpd_stride, 1),
                         padding=(2, 0)
                     )),
                     nn.LeakyReLU(0.1)
                 )
             )
         self.layers[-1][0].stride = (1, 1)
+
+        for layer in self.layers:
+            layer.apply(init_conv)
+
         self.layers = nn.ModuleList(self.layers)
 
         self.final_layer = weight_norm(nn.Conv2d(
@@ -40,6 +46,8 @@ class SubDiscriminatorP(nn.Module):
             stride=1,
             padding=(1, 0)
         ))
+
+        init_conv(self.final_layer)
 
     def forward(self, x):
         fmap = []
@@ -64,7 +72,7 @@ class SubDiscriminatorP(nn.Module):
 class MSD(nn.Module):
     def __init__(
         self,
-        downsample_factor: int=1
+        downsample_factor: int = 1
     ):
         super(MSD, self).__init__()
 
@@ -101,9 +109,15 @@ class MSD(nn.Module):
                     nn.LeakyReLU(0.1)
                 )
             )
+
+        for layer in self.layers:
+            layer.apply(init_conv)
+
         self.layers = nn.ModuleList(self.layers)
 
         self.final_layer = self.norm(nn.Conv1d(1024, 1, 3, 1, padding=1))
+
+        init_conv(self.final_layer)
 
     def forward(
         self,
@@ -121,3 +135,4 @@ class MSD(nn.Module):
         x = torch.flatten(x, 1, -1)
 
         return x, fmap
+
