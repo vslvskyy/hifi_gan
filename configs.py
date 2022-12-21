@@ -47,3 +47,4 @@ class TrainConfig:
     device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     log_step: int = 25
     save_step: int = 10
+    log: bool = True
