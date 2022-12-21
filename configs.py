@@ -43,7 +43,7 @@ class TrainConfig:
     alpha_fm: int = 2
     alpha_mel: int = 45
     steps_per_epoch: int = 250
-    n_epochs: int = 100
+    n_epochs: int = 200
     device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     log_step: int = 25
     save_step: int = 10
