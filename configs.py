@@ -48,3 +48,4 @@ class TrainConfig:
     log_step: int = 25
     save_step: int = 10
     log: bool = True
+    save_path: str = "./"

@@ -24,7 +24,7 @@ def train_one_epoch(
     for d_block in discriminator:
         d_block.train()
 
-    for i, real_wav in tqdm(enumerate(train_dataloader), total=train_config.steps_per_epoch):
+    for current_step, real_wav in tqdm(enumerate(train_dataloader), total=train_config.steps_per_epoch):
         real_mels = get_mel_spec(real_wav)
 
         real_wav = real_wav.to(train_config.device)
@@ -57,7 +57,7 @@ def train_one_epoch(
         g_optimizer.step()
 
 
-        if train_config.log and i % train_config.log_step == 0:
+        if train_config.log and current_step % train_config.log_step == 0:
             wandb.log({
                 "total_g_loss": total_g_loss,
                 "total_d_loss": total_d_loss,
@@ -65,8 +65,6 @@ def train_one_epoch(
                 "mel_loss": mel_loss,
                 "ftmp_loss": ftmp_loss
             })
-
-        break
 
 
 def validate(
@@ -82,9 +80,7 @@ def validate(
         fake_wav = generator(mel_spec.to(device))  # (1, T)
         fake_wavs.append(fake_wav.detach().cpu().squeeze().numpy())
 
-        break
 
-    print(dataset.sample_rate)
     for i, fake_wav in enumerate(fake_wavs, start=1):
         wandb.log({
             f"test sample {i}": wandb.Audio(fake_wav, sample_rate=dataset.sample_rate)
@@ -112,6 +108,11 @@ def train(
     discriminator.to(TrainConfig.device)
 
     for epoch in range(train_config.n_epochs):
+        if train_config.log:
+            wandb.log({
+                epoch: epoch
+            })
+
         train_one_epoch(
             generator,
             discriminator,
@@ -127,5 +128,14 @@ def train(
         d_scheduler.step()
         g_scheduler.step()
 
-        # if train_config.log:
-        validate(generator, get_mel_spec, test_dataset, train_config.device)
+        if train_config.log:
+            validate(generator, get_mel_spec, test_dataset, train_config.device)
+
+        if epoch % train_config.save_step == 0:
+            torch.save({
+                "generator": generator.state_dict(),
+                "g_optimizer": g_optimizer.state_dict(),
+                "discriminator": discriminator.state_dict(),
+                "d_optimizer": d_optimizer.state_dict()
+            }, f"{train_config.save_path}/checkpoint_%d.pth.tar" % epoch)
+            print("save model after epoch %d ..." % epoch)
