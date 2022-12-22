@@ -19,6 +19,10 @@ mkdir results
 pip install -r requirements.txt
 ```
 
+## Model Testing
+
+You can find generated samples in the `examples` directory. To reproduce the results do the following:
+
 ###  Download model weights
 ```shell
 !wget --load-cookies /tmp/cookies.txt \
@@ -31,8 +35,7 @@ $(wget --quiet --save-cookies /tmp/cookies.txt \
 rm -rf /tmp/cookies.txt
 ```
 
-## Model Testing
-You can find generated samples in the `examples` directory. To reproduce this result run:
+### Generate wavs
 
 ```shell
 !python test.py \
@@ -49,4 +52,25 @@ from IPython import display
 display.Audio("./results/result_wav_0.wav")
 display.Audio("./results/result_wav_1.wav")
 display.Audio("./results/result_wav_2.wav")
+```
+
+## Model Training
+
+### Download LJSpeech dataset
+
+```shell
+wget https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2 -o /dev/null
+mkdir data
+tar -xvf LJSpeech-1.1.tar.bz2 >> /dev/null
+mv LJSpeech-1.1 data/LJSpeech-1.1
+```
+
+### Train model
+
+```shell
+!python train.py \
+    --train_data_path ./data/LJSpeech-1.1 \
+    --test_data_path ./test_dataset \
+    --checkpoint_path ./ 
+    --wandb_log  # if wandb logging is needed
 ```
