@@ -27,8 +27,6 @@ def run(args):
 
         write(args.results_dir_path + f"/result_wav_{i}.wav", fake_wav, dataset.sample_rate)
 
-        # write(args.results_dir_path + f"/result_wav_{i}.wav", dataset.sample_rate, fake_wav)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Train HiFi-GAN")
