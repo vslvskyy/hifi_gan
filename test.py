@@ -43,7 +43,7 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", type=str, required=True,
                         help="path to file with model weights")
 
-    parser.add_argument("--results_dir_path", type=str, rewuired=True
+    parser.add_argument("--results_dir_path", type=str, rewuired=True,
                         help="path to directory to save generated wavs to")
 
     run(parser.parse_args())
