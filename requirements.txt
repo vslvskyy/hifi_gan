@@ -1,8 +1,6 @@
 tqdm
 IPython
 
-scipy
-
 torch
 torchaudio
 librosa
