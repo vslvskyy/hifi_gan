@@ -20,13 +20,13 @@ pip install -r requirements.txt
 
 ###  Download model weights
 ```shell
-wget --load-cookies /tmp/cookies.txt \
+!wget --load-cookies /tmp/cookies.txt \
 "https://docs.google.com/uc?export=download&confirm= \
 $(wget --quiet --save-cookies /tmp/cookies.txt \
 --keep-session-cookies --no-check-certificate \
-'https://docs.google.com/uc?export=download&id=1-yVAp4SmcXWtb0aXYDhU57ppYN9Ogx0W' \
--O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1-yVAp4SmcXWtb0aXYDhU57ppYN9Ogx0W" \
--O checkpoint.pth && \
+'https://docs.google.com/uc?export=download&id=1-y6dL8jwJH-pM0ZidBRkuQgxfinN1Rh_' \
+-O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1-y6dL8jwJH-pM0ZidBRkuQgxfinN1Rh_" \
+-O checkpoint_epoch100.pth && \
 rm -rf /tmp/cookies.txt
 ```
 
@@ -34,5 +34,19 @@ rm -rf /tmp/cookies.txt
 You can find generated samples in `examples` directory. To reproduce this result run:
 
 ```shell
-python test.py --data_path ./test_data --checkpoint_path ./checkpoint_path
+!python test.py --data_path ./test_dataset --checkpoint_path ./checkpoint_epoch100.pth --results_dir_path ./results
+```
+
+Now samples are avaliable at `./results`. You may display them like this:
+
+```python
+from IPython import display
+i = 0
+display.Audio(f"./results/result_wav_{i}.wav")
+
+i = 1
+display.Audio(f"./results/result_wav_{i}.wav")
+
+i = 2
+display.Audio(f"./results/result_wav_{i}.wav")
 ```
