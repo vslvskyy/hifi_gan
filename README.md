@@ -32,7 +32,7 @@ rm -rf /tmp/cookies.txt
 ```
 
 ## Model Testing
-You can find generated samples in `examples` directory. To reproduce this result run:
+You can find generated samples in the `examples` directory. To reproduce this result run:
 
 ```shell
 !python test.py \
