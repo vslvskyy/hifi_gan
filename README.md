@@ -35,7 +35,10 @@ rm -rf /tmp/cookies.txt
 You can find generated samples in `examples` directory. To reproduce this result run:
 
 ```shell
-!python test.py --data_path ./test_dataset --checkpoint_path ./checkpoint_epoch100.pth --results_dir_path ./results
+!python test.py \
+    --data_path ./test_dataset \
+    --checkpoint_path ./checkpoint_epoch100.pth \
+    --results_dir_path ./results
 ```
 
 Now samples are avaliable at `./results`. You may display them like this:
