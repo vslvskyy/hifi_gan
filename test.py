@@ -2,7 +2,6 @@ import argparse
 
 import torch
 
-from IPython import display
 from scipy.io.wavfile import write
 
 from configs import TrainConfig, ModelConfig, MelSpectrogramConfig
