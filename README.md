@@ -25,7 +25,7 @@ You can find generated samples in the `examples` directory. To reproduce the res
 
 ###  Download model weights
 ```shell
-!wget --load-cookies /tmp/cookies.txt \
+wget --load-cookies /tmp/cookies.txt \
 "https://docs.google.com/uc?export=download&confirm= \
 $(wget --quiet --save-cookies /tmp/cookies.txt \
 --keep-session-cookies --no-check-certificate \
@@ -38,7 +38,7 @@ rm -rf /tmp/cookies.txt
 ### Generate wavs
 
 ```shell
-!python test.py \
+python test.py \
     --data_path ./test_dataset \
     --checkpoint_path ./checkpoint_epoch100.pth \
     --results_dir_path ./results
@@ -68,7 +68,7 @@ mv LJSpeech-1.1 data/LJSpeech-1.1
 ### Train model
 
 ```shell
-!python train.py \
+python train.py \
     --train_data_path ./data/LJSpeech-1.1 \
     --test_data_path ./test_dataset \
     --checkpoint_path ./ 
