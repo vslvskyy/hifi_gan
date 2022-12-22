@@ -25,7 +25,7 @@ def run(args):
         with torch.no_grad():
             fake_wav = generator(mel_spec.to(TrainConfig.device))  # (1, T)
 
-        fake_wav = fake_wav.squeeze().cpu().numpy().astype("int16t")
+        fake_wav = fake_wav.squeeze().cpu().numpy().astype("int16")
         fake_wavs.append(fake_wav)
 
         write(args.results_dir_path + f"/result_wav_{i}.wav", dataset.sample_rate, fake_wav)
