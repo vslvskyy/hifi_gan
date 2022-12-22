@@ -71,6 +71,6 @@ mv LJSpeech-1.1 data/LJSpeech-1.1
 python train.py \
     --train_data_path ./data/LJSpeech-1.1 \
     --test_data_path ./test_dataset \
-    --checkpoint_path ./ 
+    --checkpoint_path ./ \
     --wandb_log  # if wandb logging is needed
 ```
