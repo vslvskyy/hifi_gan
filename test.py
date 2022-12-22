@@ -18,20 +18,15 @@ def run(args):
 
     dataset = LJSpeechDataset(args.data_path)
 
-    fake_wavs = []
     for i, wav in enumerate(dataset):
         mel_spec = MelSpectrogram(MelSpectrogramConfig)(wav)
 
         with torch.no_grad():
             fake_wav = generator(mel_spec.to(TrainConfig.device))  # (1, T)
 
-        fake_wav = fake_wav.squeeze().cpu().numpy().astype("int16")
-        fake_wavs.append(fake_wav)
+        fake_wav = fake_wav.squeeze().cpu().numpy()
 
         write(args.results_dir_path + f"/result_wav_{i}.wav", dataset.sample_rate, fake_wav)
-
-    for i in range(len(dataset)):
-        display.Audio(args.results_dir_path + f"/result_wav_{i}.wav")
 
 
 if __name__ == "__main__":
