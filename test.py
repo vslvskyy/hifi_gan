@@ -12,7 +12,8 @@ from utils import MelSpectrogram
 
 def run(args):
     generator = HiFiGenerator(ModelConfig, MelSpectrogramConfig)
-    generator.load_state_dict(torch.load(args.checkpoint_path, map_location=TrainConfig.device)["generator"])
+    generator.load_state_dict(torch.load(args.checkpoint_path)["generator"])
+    generator.to(TrainConfig.device)
     generator.eval()
 
     dataset = LJSpeechDataset(args.data_path)
