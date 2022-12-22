@@ -2,7 +2,7 @@ import argparse
 
 import torch
 
-from scipy.io.wavfile import write
+from soundfile import write
 
 from configs import TrainConfig, ModelConfig, MelSpectrogramConfig
 from generator import HiFiGenerator
@@ -25,7 +25,9 @@ def run(args):
 
         fake_wav = fake_wav.squeeze().cpu().numpy()
 
-        write(args.results_dir_path + f"/result_wav_{i}.wav", dataset.sample_rate, fake_wav)
+        write(args.results_dir_path + f"/result_wav_{i}.wav", fake_wav, dataset.sample_rate)
+
+        # write(args.results_dir_path + f"/result_wav_{i}.wav", dataset.sample_rate, fake_wav)
 
 
 if __name__ == "__main__":
