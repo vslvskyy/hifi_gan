@@ -3,8 +3,7 @@
 This is the homework for the course [Deep Learning for Audio](https://github.com/markovka17/dla) at the [CS Faculty](https://cs.hse.ru/en/)
   of [HSE](https://www.hse.ru/en/).
   
- The aim of this work was to implement architecture from [HiFi-GAN: Generative Adversarial Networks for
-Efficient and High Fidelity Speech Synthesis](https://arxiv.org/pdf/2010.05646.pdf) and train it on [LJSpeech](https://keithito.com/LJ-Speech-Dataset/) datset.
+ The aim of this work was to implement [HiFi-GAN](https://arxiv.org/pdf/2010.05646.pdf) architecture and train it on [LJSpeech](https://keithito.com/LJ-Speech-Dataset/) datset.
 
 ## Installation guide
 
