@@ -41,12 +41,8 @@ Now samples are avaliable at `./results`. You may display them like this:
 
 ```python
 from IPython import display
-i = 0
-display.Audio(f"./results/result_wav_{i}.wav")
 
-i = 1
-display.Audio(f"./results/result_wav_{i}.wav")
-
-i = 2
-display.Audio(f"./results/result_wav_{i}.wav")
+display.Audio("./results/result_wav_0.wav")
+display.Audio("./results/result_wav_1.wav")
+display.Audio("./results/result_wav_2.wav")
 ```
